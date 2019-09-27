@@ -1,0 +1,68 @@
+name: myufp
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.0
+  rflutter_alert: ^1.0.2
+  http: ^0.12.0+2
+  charts_flutter: ^0.6.0
+  percent_indicator: "^2.1.1"
+  flutter_progress_button: '^1.0.0'
+  table_calendar: ^2.0.1
+  flutter_masked_text: ^0.8.0
+  firebase_core: ^0.4.0+1  # add dependency for Firebase Core
+  firebase_analytics: ^5.0.1 
+  firebase_database: ^3.0.7
+  path_provider: ^1.2.0
+  flutter_local_notifications: ^0.8.2
+  #workmanager: ^0.0.15
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+
+flutter:
+
+
+  uses-material-design: true
+  assets:
+    - assets/tumb.png
+    - assets/sky_news.jpg
+    - assets/ufp_imagem.jpg
+    - assets/calendar.png
+    - assets/exame.png
+    - assets/no_wifi.png
+    - assets/logotipo.png
+    - assets/logotipinho.png
+    - assets/spinner.gif
+    - assets/carregando.gif
+    - assets/cursos/analises_clinicas.png
+    - assets/cursos/arquitetura.png
+    - assets/cursos/ciencias_comunicacao.png
+    - assets/cursos/ciencias_empresariais.png
+    - assets/cursos/ciencias_farmaceuticas.png
+    - assets/cursos/ciencias_nutricao.png
+    - assets/cursos/ciencias_politicas.png
+    - assets/cursos/criminologia.png
+    - assets/cursos/dentaria.png
+    - assets/cursos/enfermagem.png
+    - assets/cursos/eng_civil.png
+    - assets/cursos/eng_informatica.png
+    - assets/cursos/fisioterapia.png
+    - assets/cursos/gestao_ambiente.png
+    - assets/cursos/psicologia.png
+    - assets/cursos/terapeutica_fala.png
+  fonts:
+      - family: Nunito
+        fonts:
+          - asset: assets/Nunito.ttf
