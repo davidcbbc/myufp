@@ -1,7 +1,7 @@
 name: myufp
 description: A new Flutter project.
 
-version: 3.0.0
+version: 2.0.4
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -22,6 +22,7 @@ dependencies:
   firebase_database: ^3.0.7
   path_provider: ^1.2.0
   flutter_local_notifications: ^0.8.2
+  url_launcher: ^5.1.3
   #workmanager: ^0.0.15
 
 

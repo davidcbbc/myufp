@@ -9,6 +9,7 @@ import 'package:myufp/screens/secretary.dart';
 import 'package:myufp/services/api.dart';
 import 'package:myufp/services/myfiles.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'home_page.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
 
@@ -196,12 +197,34 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 20.0),
             loginButton,
             textLabel,
+            Center(
+              child: InkWell(
+                onTap:() async{
+                  _launchInBrowser("https://www.freeprivacypolicy.com/privacy/view/7dc3d9cebc16eff508cbf7efc9e1af0f");
+                } ,
+                child: Text('By proceeding you agree with our privacy policy' ,style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey[400], decoration: TextDecoration.underline),),
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
+Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  
   _alertaErroLogin(context) {
     Alert(
       closeFunction: () {
