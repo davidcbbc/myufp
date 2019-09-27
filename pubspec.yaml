@@ -1,7 +1,7 @@
 name: myufp
 description: A new Flutter project.
 
-version: 2.0.4
+version: 3.0.0
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
