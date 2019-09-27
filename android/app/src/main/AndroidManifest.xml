@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.myufp">
+    package="com.capella.myufp">
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -11,7 +12,7 @@
     <application
         android:name=".App"
         android:label="myufp"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/laucher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

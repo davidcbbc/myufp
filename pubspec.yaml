@@ -1,7 +1,7 @@
 name: myufp
 description: A new Flutter project.
 
-version: 1.0.0+1
+version: 3.0.0
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -28,6 +28,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: "laucher_icon"
+  image_path: 'assets/iconzito.png'
 
 
 
@@ -36,6 +41,7 @@ flutter:
 
   uses-material-design: true
   assets:
+    - assets/iconzito.png
     - assets/tumb.png
     - assets/sky_news.jpg
     - assets/ufp_imagem.jpg

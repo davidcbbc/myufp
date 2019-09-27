@@ -1,4 +1,4 @@
-package com.example.myufp
+package com.capella.myufp
 
 import android.os.Bundle
 

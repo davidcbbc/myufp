@@ -1,4 +1,4 @@
-package com.example.myufp
+package com.capella.myufp
 
 import io.flutter.app.FlutterApplication
 import io.flutter.plugin.common.PluginRegistry
