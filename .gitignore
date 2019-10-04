@@ -63,6 +63,7 @@
 **/ios/Flutter/app.zip
 **/ios/Flutter/flutter_assets/
 **/ios/ServiceDefinitions.json
+**/ios/Runner/GoogleService-Info.plist
 **/ios/Runner/GeneratedPluginRegistrant.*
 
 # Exceptions to above rules.
