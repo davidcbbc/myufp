@@ -12,6 +12,7 @@ import 'package:myufp/screens/secretary.dart';
 import 'package:myufp/screens/teste.dart';
 import 'package:myufp/screens/thecalendar.dart';
 import 'package:myufp/services/myfiles.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 import './atm.dart';
 
@@ -29,6 +30,21 @@ class _HomePageState extends State<HomePage> {
   bool liked = false;
   int likes = 143;
   _HomePageState(this._logged);
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseAdMob.instance.initialize(appId: "ca-app-pub-7599976903549248~3408543611");
+    myBanner
+    ..load()
+    ..show(
+      anchorOffset: 60.0,
+      horizontalCenterOffset: 10.0,
+      anchorType: AnchorType.bottom,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,109 +161,159 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-       body: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Card(
+      body: ListView(
+        children: <Widget>[
+          Card(
+        elevation: 8.0,
+        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: ListTile(
+            onTap: () {
+             
+            },
+            contentPadding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+           
+            title: Container(
+              padding: EdgeInsets.only(right: 12.0),
+              decoration: new BoxDecoration(
+                border: new Border(
+                  right: new BorderSide(width: 1.0, color: Colors.white24)
+                )
+              ),
+              child: Column(
+                children: <Widget>[
+                  Text("Gym Bar Party"),
+                  Image.asset('assets/sky_news.jpg'),
+                  Row(
+                    children: <Widget>[
+                      Icon(Icons.thumb_up, color: Colors.grey,),
+                      Text("123")
+                    ],
+                  )
+                
+                ],
 
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: ListTile(
-                              onTap: () {
-                                debugPrint("ListTile tapped!");
-                              },
-                              title: Container(
-                                child: Stack(
-                                  alignment: AlignmentDirectional(0, 1),
-                                  children: <Widget>[
-                                    Hero(
-                                      tag: "ESTA E A TAG",
-                                      child:  ClipRRect(
-                                        borderRadius: BorderRadius.vertical(top: Radius.circular(10),bottom: Radius.circular(10)),
-                                        child: Image.asset(
-                                                'assets/ufp_imagem.jpg',
-                                                colorBlendMode: BlendMode.darken,                                            
-                                              ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(
-                                        "News are coming soon ! The app MYUFP will have news in the home page",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.normal),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              subtitle: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  IconButton(
-                                    tooltip: "Like this post",
-                                    padding: EdgeInsets.only(right: 1),
-                                    icon: Icon(Icons.thumb_up),
-                                    onPressed: () {
-                                      
-                                      setState(() {
-                                        if(liked) {
-                                          print("Menos um like");
-                                          liked = false;
-                                          likes--;
-                                        } else {
-                                          print("Mais um like");
-                                          liked = true;
-                                          likes++;
-                                        }
-                                      });
-                                    },
-                                    color: liked? Colors.green[500] : Colors.grey[400],
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(right: 120),
-                                    child: Text("$likes", style: TextStyle(color: Colors.green[800]),),
-                                  ),
-                                  
-                                  Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: FlatButton(
-                                      splashColor: Colors.grey,
-                                      onPressed: () {
-                                        print("dei presse");
-                                      },
-                                      child: null,
-                                    ),
-                                  ),
+              )
+            ),
+            
+          ),
+        ),
+      ),
+      Card(
+        elevation: 8.0,
+        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: ListTile(
+            onTap: () {
+             
+            },
+            contentPadding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+           
+            title: Container(
+              padding: EdgeInsets.only(right: 12.0),
+              decoration: new BoxDecoration(
+                border: new Border(
+                  right: new BorderSide(width: 1.0, color: Colors.white24)
+                )
+              ),
+              child: Column(
+                children: <Widget>[
+                  Text("VR Festa Caloiro"),
+                  Image.asset('assets/tumb.png'),
+                  Row(
+                    children: <Widget>[
+                      Icon(Icons.thumb_up, color: Colors.grey,),
+                      Text("123")
+                    ],
+                  )
+                
+                ],
 
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(),
-                      ],
-                    )
-       
-       
-       
-       
-       //new Center(
-      //   child: new Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       new Text("${_logged.username}", style: new TextStyle(fontSize: 35.0)),
-      //     ],
-      //   )
-      // )
+              )
+            ),
+            
+          ),
+        ),
+      ),
+      Card(
+        elevation: 8.0,
+        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: ListTile(
+            onTap: () {
+             
+            },
+            contentPadding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+           
+            title: Container(
+              padding: EdgeInsets.only(right: 12.0),
+              decoration: new BoxDecoration(
+                border: new Border(
+                  right: new BorderSide(width: 1.0, color: Colors.white24)
+                )
+              ),
+              child: Column(
+                children: <Widget>[
+                  Text("Praxe"),
+                  Image.asset('assets/tumb.png' ,),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.thumb_up, color: Colors.grey,),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4),
+                            child: Text("123"),
+                          )
+                        ],
+                      ),
+                      Text("See more")
+                    ],
+                  )
+                
+                ],
+
+              )
+            ),
+            
+          ),
+        ),
+      ),
+      
+        ],
+      ),
       ),
     );
     
   }
+
+  static final MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+    keywords: <String>['flutterio', 'beautiful apps'],
+    contentUrl: 'https://flutter.io',
+    birthday: DateTime.now(),
+    childDirected: false,
+    designedForFamilies: false,
+    gender: MobileAdGender.male, // or MobileAdGender.female, MobileAdGender.unknown
+    testDevices: <String>[], // Android emulators are considered test devices
+);
+
+BannerAd myBanner = BannerAd(
+  // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+  // https://developers.google.com/admob/android/test-ads
+  // https://developers.google.com/admob/ios/test-ads
+  adUnitId: 'ca-app-pub-7599976903549248/7233960754',
+  size: AdSize.smartBanner,
+  targetingInfo: targetingInfo,
+  listener: (MobileAdEvent event) {
+    print("BannerAd event is $event");
+  },
+);
+
 }

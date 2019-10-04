@@ -23,6 +23,7 @@ class Event {
   }
 
   DateTime getDateTime() {
+    
     String ano2 = dia.toString().substring(0,4);
     String mes2 = (dia.toString().substring(5,7));
     String dia2 = (dia.toString().substring(8,10));

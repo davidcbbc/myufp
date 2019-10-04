@@ -103,9 +103,13 @@ class _TheCalendarState extends State<TheCalendar> with TickerProviderStateMixin
   void refreshEventos(TheCalendar cale, Schedule horario) {
     final _selectedDay = DateTime.now();
     Map<DateTime,List> eventitos = new Map<DateTime,List>();
+    print("a ir buscar eventos da bd");
     var eventosDaBD = returnAllEventsOfUser(this.number);
+    
     eventosDaBD.then((lista) {
+      
     if(lista != null) {
+      
       for( int i = 0 ; i < lista.length ; i++) {
         Event ev = lista[i];
         String ano1 = ev.dia.substring(0,4);
@@ -120,6 +124,7 @@ class _TheCalendarState extends State<TheCalendar> with TickerProviderStateMixin
       }
     }
     if(actual.validated) {
+      print("entrei no actual");
       cale.diplinas.forEach((diplina) {
       String ano;
       String mes;
@@ -195,13 +200,29 @@ class _TheCalendarState extends State<TheCalendar> with TickerProviderStateMixin
 
   Future<Event> addEvent(String user_number,String event_day,String event_description, String event_name , String event_hours) async {
     //print("$event_day");
+            String mesAux;
+            String diaAux;
             Event novo_evento = new Event(event_description,event_name,dia: event_day, descricao: event_description , horas: event_hours);
             var instantace = fb.FirebaseDatabase.instance.reference();
             var user = instantace.child("users").child(user_number).child("calendar_events");
             //fb.FirebaseDatabase.instance.reference().child("users").child(user_number).child("calendar_events").
+            print(novo_evento.getDateTime().toString());
+            print(novo_evento.getDateTime().month.toString());
+            if(novo_evento.getDateTime().month.toString().length == 1) {
+              mesAux = "0${novo_evento.getDateTime().month.toString()}";
+            }else mesAux = novo_evento.getDateTime().month.toString();
+
+            print("mes $mesAux");
+
+            if(novo_evento.getDateTime().day.toString().length == 1) {
+              diaAux = "0${novo_evento.getDateTime().day.toString()}";
+            } else diaAux = novo_evento.getDateTime().day.toString();
+
+            print("dia $diaAux");
+
             var ano = user.child(novo_evento.getDateTime().year.toString());
-            var mes = ano.child(novo_evento.getDateTime().month.toString());
-            var dia = mes.child(novo_evento.getDateTime().day.toString());
+            var mes = ano.child(mesAux);
+            var dia = mes.child(diaAux);
             var horas = dia.child(event_hours);
             var setzito = horas
             .set({
@@ -229,9 +250,12 @@ class _TheCalendarState extends State<TheCalendar> with TickerProviderStateMixin
     else mezito = event.dia.substring(5,7);
     if(event.dia.substring(8,9) == "0") diazito = event.dia.substring(8,9);
     else diazito = event.dia.substring(8,10);
-    // print(mezito);
-    // print(diazito);
-    //print(event.getDateTime().year.toString());
+     
+     if(mezito.length == 1) mezito = "0$mezito";
+     if(diazito.length == 1) diazito = "0$diazito";
+      print(mezito);
+     print(diazito);
+    print(event.getDateTime().year.toString());
             fb.FirebaseDatabase.instance.reference().child("users").child(user_number).child("calendar_events").
             child(event.getDateTime().year.toString()).
             child(mezito).
@@ -246,19 +270,23 @@ class _TheCalendarState extends State<TheCalendar> with TickerProviderStateMixin
   Future<List<Event>> returnAllEventsOfUser(String user_number) async{
     print("A ENTRAR");
   List<Event> eventos = new List<Event>();
+  print("A DAR RETURN");
   return fb.FirebaseDatabase.instance.reference().child("users").child(user_number).child("calendar_events").once().then((valor) {
     fb.DataSnapshot ds = valor;
 
     Map hey = ds.value;
     if(hey != null)
+    print("1");
     hey.forEach((ano,resto) {
+      print("entrei no for each");
 
       String anito = ano.toString();
-      //print("ANO $anito");
+      print("ANO $anito");
+      print(resto);
       Map info = resto;
-      
+      print("a entrar no segundo for each");
       info.forEach((mes, restito) {
-
+        print("2");
         String mesito = mes.toString();
         if( mesito.toString().length == 1) mesito = "0$mesito";
         Map info2 = restito;
