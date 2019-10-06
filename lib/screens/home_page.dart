@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:myufp/models/evento.dart';
 import 'package:myufp/models/licenciaturas.dart';
 import 'package:myufp/models/user.dart';
 import 'package:myufp/screens/assiduity.dart';
@@ -8,6 +9,7 @@ import 'package:myufp/screens/grades.dart';
 import 'package:myufp/screens/login_page.dart';
 import 'package:myufp/screens/menu.dart';
 import 'package:myufp/screens/schedule.dart';
+import 'package:firebase_database/firebase_database.dart' as fb;
 import 'package:myufp/screens/secretary.dart';
 import 'package:myufp/screens/teste.dart';
 import 'package:myufp/screens/thecalendar.dart';
@@ -29,22 +31,160 @@ class _HomePageState extends State<HomePage> {
   User _logged;
   bool liked = false;
   int likes = 143;
+  bool refreshed = false;
   _HomePageState(this._logged);
+  Widget actual;
 
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    FirebaseAdMob.instance.initialize(appId: "ca-app-pub-7599976903549248~3408543611");
-    myBanner
-    ..load()
-    ..show(
-      anchorOffset: 60.0,
-      horizontalCenterOffset: 10.0,
-      anchorType: AnchorType.bottom,
-    );
+    // FirebaseAdMob.instance.initialize(appId: "ca-app-pub-7599976903549248~3408543611");
+    // myBanner
+    // ..load()
+    // ..show(
+    //   anchorOffset: 60.0,
+    //   horizontalCenterOffset: 10.0,
+    //   anchorType: AnchorType.bottom,
+    // );
   }
+
+
+
+Future<List<Event>> buscarEventos() async {
+   print("A ir buscar eventos da bd");
+    List<Event> eventosLista = new List<Event>();
+    return fb.FirebaseDatabase.instance.reference().child('eventos').once().then((eventos) {
+      fb.DataSnapshot ds = eventos;
+      Map mapa = ds.value;
+      print(mapa.toString());
+      if(mapa != null) {
+        // Caso hajam realmente eventos
+        mapa.forEach((nome , resto) {
+          String nomezito = nome;
+          Map restito = resto;
+          String photo = restito['photoUrl'].toString();
+          String descricao = restito['desc'].toString();
+          Map likes = restito['likes'];
+          Map interesses = restito['interesse'];
+          int numeroInteresse = int.parse(interesses['total'].toString());
+          int numeroLikes = int.parse(likes['total'].toString());
+          Event novoEvento = new Event("EVENT", nomezito, photoUrl: photo, descricao: descricao , likes: numeroLikes, interesse: numeroInteresse );
+          //print(novoEvento.toString());
+          eventosLista.add(novoEvento);
+        });
+        return eventosLista;
+      }
+    });
+
+}
+
+  void buscarCards() {
+    // Esta funcao encarrega-se de ir buscar eventos a database e formata em cards
+    List<Widget> listita = new List<Widget>();
+   var eventos = buscarEventos();
+    eventos.then((eventitos) {
+
+     List<Event> aux = eventitos;
+
+     for(int i = 0 ; i < aux.length ; i++) {
+       // Cria uma card para cada envento que exista
+        listita.add(Card(
+        elevation: 8.0,
+        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+        child: Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: ListTile(
+            onTap: () {
+             
+            },
+            contentPadding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+           
+            title: Container(
+              padding: EdgeInsets.only(right: 12.0),
+              decoration: new BoxDecoration(
+                border: new Border(
+                  right: new BorderSide(width: 1.0, color: Colors.white24)
+                )
+              ),
+              child: Column(
+                children: <Widget>[
+                  Text(aux[i].nome),
+                  Image.network(aux[i].photoUrl),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.done_outline, color: Colors.grey,),
+                            onPressed: () {
+
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4),
+                            child: Text(aux[i].likes.toString()),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.tag_faces, color: Colors.grey,),
+                            onPressed: () {
+
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 4),
+                            child: Text(aux[i].interesse.toString()),
+                          )
+                        ],
+                      ),
+                      Container(
+                        color: Colors.grey[300],
+                        height: 30,
+                        width: 100,
+
+                        child: FlatButton(
+                          child: Text("See more"), 
+                          onPressed: () {
+                            // Caso carregue no bota para ver mais
+                            
+                          },
+
+                        ),
+                      )
+                    ],
+                  )
+                
+                ],
+
+              )
+            ),
+            
+          ),
+        ),
+      ));
+
+     }
+     setState(() {
+       actual = Center(
+      child: Column(
+        children: listita,
+      ),
+    );
+    refreshed = true;
+     });
+    
+   });
+   //return CircularProgressIndicator();
+    
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +192,23 @@ class _HomePageState extends State<HomePage> {
    Licenciaturas lp = new Licenciaturas();
    if(_logged.licenciatura == "hey") licenca = false;
    String imagem_licenciatura = lp.lic[_logged.licenciatura];
+   if (!refreshed) buscarCards();
+   
 
  return new WillPopScope(    //WillPopScore evita andar para tras em androids e nao volta a pagina de login
       onWillPop: () async => false,
       child: new Scaffold(
       appBar: new AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                refreshed = false;
+              });
+            },
+          )
+        ],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -163,129 +315,9 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          Card(
-        elevation: 8.0,
-        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-        child: Container(
-          decoration: BoxDecoration(color: Colors.white),
-          child: ListTile(
-            onTap: () {
-             
-            },
-            contentPadding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-           
-            title: Container(
-              padding: EdgeInsets.only(right: 12.0),
-              decoration: new BoxDecoration(
-                border: new Border(
-                  right: new BorderSide(width: 1.0, color: Colors.white24)
-                )
-              ),
-              child: Column(
-                children: <Widget>[
-                  Text("Gym Bar Party"),
-                  Image.asset('assets/sky_news.jpg'),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.thumb_up, color: Colors.grey,),
-                      Text("123")
-                    ],
-                  )
-                
-                ],
-
-              )
-            ),
-            
-          ),
-        ),
-      ),
-      Card(
-        elevation: 8.0,
-        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-        child: Container(
-          decoration: BoxDecoration(color: Colors.white),
-          child: ListTile(
-            onTap: () {
-             
-            },
-            contentPadding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-           
-            title: Container(
-              padding: EdgeInsets.only(right: 12.0),
-              decoration: new BoxDecoration(
-                border: new Border(
-                  right: new BorderSide(width: 1.0, color: Colors.white24)
-                )
-              ),
-              child: Column(
-                children: <Widget>[
-                  Text("VR Festa Caloiro"),
-                  Image.asset('assets/tumb.png'),
-                  Row(
-                    children: <Widget>[
-                      Icon(Icons.thumb_up, color: Colors.grey,),
-                      Text("123")
-                    ],
-                  )
-                
-                ],
-
-              )
-            ),
-            
-          ),
-        ),
-      ),
-      Card(
-        elevation: 8.0,
-        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
-        child: Container(
-          decoration: BoxDecoration(color: Colors.white),
-          child: ListTile(
-            onTap: () {
-             
-            },
-            contentPadding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
-           
-            title: Container(
-              padding: EdgeInsets.only(right: 12.0),
-              decoration: new BoxDecoration(
-                border: new Border(
-                  right: new BorderSide(width: 1.0, color: Colors.white24)
-                )
-              ),
-              child: Column(
-                children: <Widget>[
-                  Text("Praxe"),
-                  Image.asset('assets/tumb.png' ,),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Icon(Icons.thumb_up, color: Colors.grey,),
-                          Padding(
-                            padding: EdgeInsets.only(left: 4),
-                            child: Text("123"),
-                          )
-                        ],
-                      ),
-                      Text("See more")
-                    ],
-                  )
-                
-                ],
-
-              )
-            ),
-            
-          ),
-        ),
-      ),
+          actual != null? actual : Text("")
+      
+      
       
         ],
       ),
@@ -308,8 +340,8 @@ BannerAd myBanner = BannerAd(
   // Replace the testAdUnitId with an ad unit id from the AdMob dash.
   // https://developers.google.com/admob/android/test-ads
   // https://developers.google.com/admob/ios/test-ads
-  adUnitId: 'ca-app-pub-7599976903549248/7233960754',
-  size: AdSize.smartBanner,
+  adUnitId: 'ca-app-pub-7599976903549248/5691431332',
+  size: AdSize.banner,
   targetingInfo: targetingInfo,
   listener: (MobileAdEvent event) {
     print("BannerAd event is $event");

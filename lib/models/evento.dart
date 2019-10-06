@@ -2,20 +2,25 @@ import 'package:myufp/models/disciplina.dart';
 
 class Event {
   //Existem dois tipos: EXAM e NORMAL
+  int likes;
+  int interesse;
   String dia;
   Disciplina disciplina;
+
   String type = ''; //EXAM ou NORMAL ou SCHEDULE
   String nome = '';
   String descricao = '';
   String horas ='';
+  String photoUrl = '';
 
-  Event(this.type,this.nome,{this.dia,this.descricao,this.horas,this.disciplina});
+  Event(this.type,this.nome,{this.dia,this.descricao,this.horas,this.disciplina,this.likes,this.photoUrl,this.interesse});
 
   @override
   String toString() {
     String todo = '';
     todo += "Type: $type \n"; 
     todo += "Nome: $nome \n";
+    todo += "Likes $likes \n";
     if(descricao.isNotEmpty) todo += "Desc: $descricao \n";
     todo += "Dia: $dia \n";
     if(horas.isNotEmpty) todo += "Hora: $horas"; 
