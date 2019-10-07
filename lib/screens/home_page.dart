@@ -11,6 +11,7 @@ import 'package:myufp/screens/menu.dart';
 import 'package:myufp/screens/schedule.dart';
 import 'package:firebase_database/firebase_database.dart' as fb;
 import 'package:myufp/screens/secretary.dart';
+import 'package:myufp/screens/seemore.dart';
 import 'package:myufp/screens/teste.dart';
 import 'package:myufp/screens/thecalendar.dart';
 import 'package:myufp/services/myfiles.dart';
@@ -110,7 +111,8 @@ Future<List<Event>> buscarEventos() async {
               ),
               child: Column(
                 children: <Widget>[
-                  Text(aux[i].nome),
+                  Text(aux[i].nome , style: TextStyle(fontWeight: FontWeight.bold),),
+                  SizedBox(height: 15),
                   Image.network(aux[i].photoUrl),
                   SizedBox(
                     height: 5,
@@ -151,6 +153,7 @@ Future<List<Event>> buscarEventos() async {
                           child: Text("See more"), 
                           onPressed: () {
                             // Caso carregue no bota para ver mais
+                            Navigator.of(context).push(new MaterialPageRoute(builder: (BuildContext context) => new Seemore(aux[i].nome,aux[i].descricao,aux[i].interesse,aux[i].likes,aux[i].photoUrl,_logged.username)));
                             
                           },
 
@@ -316,9 +319,6 @@ Future<List<Event>> buscarEventos() async {
       body: ListView(
         children: <Widget>[
           actual != null? actual : Text("")
-      
-      
-      
         ],
       ),
       ),
