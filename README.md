@@ -1,16 +1,6 @@
 # myufp
 
-A new Flutter project.
+myufp app for University Fernando Pessoa students
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+playstore https://play.google.com/store/apps/details?id=com.capella.myufp&hl=pt_PT
+appstore https://apps.apple.com/app/id1480222505?fbclid=IwAR21oZUFd_YmImMuwj6NBVYWVFHO2NGvFS6R1XLgMOSTSyMiid1y_g2RML8#?platform=iphone
